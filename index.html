@@ -60,6 +60,7 @@
 
   <div id="prompt-box">
     <textarea id="prompt-textarea" placeholder="Write your prompt here..." style="width: 100%; height: 70%;"></textarea>
+    <input type="file" id="image-upload" accept="image/*" style="margin-top: 10px; width: 100%;">
     <button id="generate-button">Generate</button>
     <div id="loading-message">Generating...</div>
   </div>
@@ -71,10 +72,108 @@
     document.getElementById('generate-button').addEventListener('click', async function () {
       const loadingMessage = document.getElementById('loading-message');
       const promptTextarea = document.getElementById('prompt-textarea');
+      const imageInput = document.getElementById('image-upload');
 
       loadingMessage.style.display = 'block';
 
-      var apiKey = "AIzaSyC4QkYfYC1jGxwET6PxLA19nqXusaxOdww"; // Secure way
+      // Handle image file
+      let imageData = null;
+      if (imageInput.files.length > 0) {
+        const file = imageInput.files[0];
+        const base64Image = await convertImageToBase64(file);
+        imageData = base64Image;
+      }
+
+      if (imageData) {
+        const defaultData = {
+          "camera": {
+            "position": {
+              "x": 0,
+              "y": 10,
+              "z": 15
+            },
+            "rotation": {
+              "x": -0.5,
+              "y": 0,
+              "z": 0
+            },
+            "fov": 75
+          },
+          "cubes": [
+            {
+              "position": {
+                "x": -5,
+                "y": 1,
+                "z": -3
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+              },
+              "color": "#ffffff"
+            },
+            {
+              "position": {
+                "x": 3,
+                "y": 1,
+                "z": 2
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 1.5,
+                "y": 1.5,
+                "z": 1.5
+              },
+              "color": "#000000"
+            }
+          ],
+          "plane": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": -1.57,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 10,
+              "y": 10,
+              "z": 10
+            },
+            "color": "#cccccc"
+          },
+          "humans": [
+            {
+              "position": {
+                "x": 6,
+                "y": 1,
+                "z": 6
+              },
+              "color": "#ffcc00"
+            }
+          ]
+        }
+
+        localStorage.setItem('pos_rot_data', JSON.stringify(defaultData, null, 2));
+        console.log('Data reset to default values in localStorage successfully!');
+        location.reload();
+        return;
+      }
+
+      var apiKey = "AIzaSyC4QkYfYC1jGxwET6PxLA19nqXusaxOdww";
       if (!apiKey) {
         throw new Error("API Key not found. Please set it in Script Properties.");
       }
@@ -91,6 +190,7 @@
                 Task 1:
                 1.Check last cube and plane and camera position and rotation in SceneJsonData.
                 2.Check User Query.
+                3.Check uploaded image if exists.
 
                 Task 2:
                 1.Update SceneJsonData for User Query.
@@ -110,6 +210,16 @@
           }
         ]
       };
+
+      // Add image to payload if exists
+      //if (imageData) {
+      //  payload.contents[0].parts.push({
+      //    "inline_data": {
+      //      "mime_type": "image/jpeg",
+      //      "data": imageData
+      //    }
+      //  });
+      //}
 
       var options = {
         headers: {
@@ -155,6 +265,7 @@
       loadingMessage.style.display = 'none';
     });
 
+
     document.getElementById('restart-button').addEventListener('click', function () {
       const defaultData = {
         "camera": {
@@ -167,7 +278,7 @@
             "x": 0,
             "y": 0,
             "z": 0
-          }, 
+          },
           "fov": 100
         },
         "cubes": [
@@ -218,6 +329,19 @@
       console.log('Data reset to default values in localStorage successfully!');
       location.reload();
     });
+
+    // Add this new function to convert image to base64
+    async function convertImageToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64String = reader.result.split(',')[1];
+          resolve(base64String);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
   </script>
 </body>
 
