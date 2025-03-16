@@ -100,7 +100,8 @@
                 1.your response is updated Json for User Query and nothing else.
                 2. your response is json and nothing else
                 
-                
+                attention: 
+                1.human mesh is new THREE.CylinderGeometry(0.5, 0.5, 2, 32)
                 
                 SceneJsonData: ${localStorage.getItem('pos_rot_data')}
                 User Query : ${promptTextarea.value}`
@@ -200,7 +201,17 @@
             "y": 0,
             "z": 0
           }
-        }
+        },
+        "humans": [
+          {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "color": "#ff0000"
+          }
+        ]
       };
 
       localStorage.setItem('pos_rot_data', JSON.stringify(defaultData, null, 2));

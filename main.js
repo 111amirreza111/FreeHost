@@ -96,12 +96,24 @@ if (jsonData) {
         const material = new THREE.MeshBasicMaterial({ color: cubeData.color || '#ffffff' });
         const cube = new THREE.Mesh(geometry, material);
         
-        // Set cube position, rotation, and scale
         cube.position.set(cubeData.position.x, cubeData.position.y, cubeData.position.z);
         cube.rotation.set(cubeData.rotation.x, cubeData.rotation.y, cubeData.rotation.z);
         cube.scale.set(cubeData.scale.x, cubeData.scale.y, cubeData.scale.z);
         
         scene.add(cube);
+    });
+
+    // Add humans using cylinders
+    data.humans.forEach(humanData => {
+        // Create cylinder for the body
+        const bodyGeometry = new THREE.CylinderGeometry(0.5, 0.5, 2, 32);
+        const material = new THREE.MeshBasicMaterial({ color: humanData.color || '#ff0000' });
+        const human = new THREE.Mesh(bodyGeometry, material);
+        
+        // Set human position and rotation
+        human.position.set(humanData.position.x, humanData.position.y, humanData.position.z);
+        
+        scene.add(human);
     });
 } else {
     console.log("No data found in localStorage.");
