@@ -168,25 +168,27 @@
             "z": 0
           }, 
           "fov": 100
-   
         },
-        "cube": {
-          "position": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
+        "cubes": [
+          {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "color": "#ff000"
           }
-        },
+        ],
         "plane": {
           "position": {
             "x": 0,
@@ -197,9 +199,8 @@
             "x": 0,
             "y": 0,
             "z": 0
-          },
+          }
         }
-        
       };
 
       localStorage.setItem('pos_rot_data', JSON.stringify(defaultData, null, 2));

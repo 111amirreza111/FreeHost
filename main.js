@@ -47,26 +47,22 @@ controls.enableDamping = true; // Add smooth damping effect
 
 // Create plane (ground)
 const planeGeometry = new THREE.PlaneGeometry(10, 10);
-const planeMaterial = new THREE.MeshStandardMaterial({
+const planeMaterial = new THREE.MeshBasicMaterial({
     color: 0x808080,
     side: THREE.DoubleSide
 });
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 scene.add(plane);
 
-// Create cube
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
+// Remove or comment out the lights
+// const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+// directionalLight.position.set(5, 5, 5);
+// scene.add(directionalLight);
 
-scene.add(cube);
+// const ambientLight = new THREE.AmbientLight(0x404040);
+// scene.add(ambientLight);
 
-// Add ambient light
-const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-scene.add(ambientLight);
-
-
-
+// Replace the single cube creation with a function to create cubes from array
 const jsonData = localStorage.getItem('pos_rot_data');
 
 if (jsonData) {
@@ -91,14 +87,22 @@ if (jsonData) {
 
 
 
-    // Set cube position and rotation
-    cube.position.set(data.cube.position.x, data.cube.position.y, data.cube.position.z);
-    cube.rotation.set(data.cube.rotation.x, data.cube.rotation.y, data.cube.rotation.z);
-    cube.scale.set(data.cube.scale.x, data.cube.scale.y, data.cube.scale.z);
-
     // Set plane position and rotation
     plane.position.set(data.plane.position.x, data.plane.position.y, data.plane.position.z);
     plane.rotation.set(data.plane.rotation.x, data.plane.rotation.y, data.plane.rotation.z);
+
+    data.cubes.forEach(cubeData => {
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: cubeData.color || '#ffffff' });
+        const cube = new THREE.Mesh(geometry, material);
+        
+        // Set cube position, rotation, and scale
+        cube.position.set(cubeData.position.x, cubeData.position.y, cubeData.position.z);
+        cube.rotation.set(cubeData.rotation.x, cubeData.rotation.y, cubeData.rotation.z);
+        cube.scale.set(cubeData.scale.x, cubeData.scale.y, cubeData.scale.z);
+        
+        scene.add(cube);
+    });
 } else {
     console.log("No data found in localStorage.");
 }
