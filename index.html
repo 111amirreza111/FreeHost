@@ -45,6 +45,29 @@
       text-align: center;
       font-weight: bold;
     }
+
+    #chat-response {
+      display: none;  /* Hidden by default (for mode 1) */
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 300px;
+      height: 400px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+
+    #mode-select {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      padding: 5px;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -67,12 +90,21 @@
 
   <button id="restart-button">Restart</button>
 
+  <select id="mode-select">
+    <option value="1">Mode 1: Generate Scene</option>
+    <option value="2">Mode 2: Chat Mode</option>
+  </select>
+
+  <div id="chat-response"></div>
+
   <script type="module" src="main.js"></script>
   <script>
     document.getElementById('generate-button').addEventListener('click', async function () {
+      const mode = document.getElementById('mode-select').value;
       const loadingMessage = document.getElementById('loading-message');
       const promptTextarea = document.getElementById('prompt-textarea');
       const imageInput = document.getElementById('image-upload');
+      const chatResponse = document.getElementById('chat-response');
 
       loadingMessage.style.display = 'block';
 
@@ -180,46 +212,61 @@
 
       var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey;
 
-      var payload = {
-        "contents": [
-          {
-            "parts": [
-              {
-                "text": `
-                you are three js scene generator that can generate a scene with a cube and a plane and a camera.
-                Task 1:
-                1.Check last cube and plane and camera position and rotation in SceneJsonData.
-                2.Check User Query.
-                3.Check uploaded image if exists.
+      if (mode === '1') {
+        var payload = {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": `
+                  you are three js scene generator that can generate a scene with a cube and a plane and a camera.
+                  Task 1:
+                  1.Check last cube and plane and camera position and rotation in SceneJsonData.
+                  2.Check User Query.
+                  3.Check uploaded image if exists.
 
-                Task 2:
-                1.Update SceneJsonData for User Query.
-                2.retune Updated SceneJsonData for using in another agent to generate three js Scene.
+                  Task 2:
+                  1.Update SceneJsonData for User Query.
+                  2.retune Updated SceneJsonData for using in another agent to generate three js Scene.
 
-                Role 1:
-                1.your response is updated Json for User Query and nothing else.
-                2. your response is json and nothing else
-                
-                attention: 
-                1.human mesh is new THREE.CylinderGeometry(0.5, 0.5, 2, 32)
-                
-                SceneJsonData: ${localStorage.getItem('pos_rot_data')}
-                User Query : ${promptTextarea.value}`
-              }
-            ]
-          }
-        ]
-      };
+                  Role 1:
+                  1.your response is updated Json for User Query and nothing else.
+                  2. your response is json and nothing else
+                  
+                  attention: 
+                  1.human mesh is new THREE.CylinderGeometry(0.5, 0.5, 2, 32)
+                  
+                  SceneJsonData: ${localStorage.getItem('pos_rot_data')}
+                  User Query : ${promptTextarea.value}`
+                }
+              ]
+            }
+          ]
+        };
+      } else {
+        var payload = {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text":`you are a three js scene analyzer that can analyze the three js scene and return the scene description.
+                  attention:
+                  1.human mesh is new THREE.CylinderGeometry(0.5, 0.5, 2, 32)
+                  
+                  SceneJsonData: ${localStorage.getItem('pos_rot_data')}
+                  User Query : ${promptTextarea.value}
+                  Role 1:
+                  1.response should be summary and conversational 
+                  2.response should be in markdown format
 
-      // Add image to payload if exists
-      //if (imageData) {
-      //  payload.contents[0].parts.push({
-      //    "inline_data": {
-      //      "mime_type": "image/jpeg",
-      //      "data": imageData
-      //    }
-      //  });
-      //}
+                  `
+                  
+                }
+              ]
+            }
+          ]
+        };
+      }
 
       var options = {
         headers: {
@@ -231,28 +278,20 @@
         var response = await axios.post(url, payload, options);
         var json = response.data;
 
-
-        // Check if candidates exist
         if (json.candidates && json.candidates.length > 0) {
           const responseText = json.candidates[0].content.parts[0].text;
-          console.log(responseText);
-
-          // Clean the response text by removing markdown formatting
-          const cleanJson = responseText.replace(/```json\n|\n```/g, '').trim();
-
-          // Your data as a JavaScript object
-          const data = JSON.parse(cleanJson);
-
-          // Convert object to JSON string
-          const jsonData = JSON.stringify(data, null, 2); // Pretty print with 2-space indentation
-
-          // Example of storing data in localStorage
-          localStorage.setItem('pos_rot_data', jsonData);
-          console.log('Data stored in localStorage successfully!');
-
-          // Assuming you have the new JSON data as a string
-
-          location.reload();
+          
+          if (mode === '1') {
+            const cleanJson = responseText.replace(/```json\n|\n```/g, '').trim();
+            const data = JSON.parse(cleanJson);
+            const jsonData = JSON.stringify(data, null, 2);
+            localStorage.setItem('pos_rot_data', jsonData);
+            location.reload();
+          } else {
+            chatResponse.innerHTML += `<p><strong>You:</strong> ${promptTextarea.value}</p>`;
+            chatResponse.innerHTML += `<p><strong>AI:</strong> ${responseText}</p>`;
+            chatResponse.scrollTop = chatResponse.scrollHeight;
+          }
         } else {
           console.log("No response candidates found.");
         }
@@ -264,7 +303,6 @@
       promptTextarea.value = '';
       loadingMessage.style.display = 'none';
     });
-
 
     document.getElementById('restart-button').addEventListener('click', function () {
       const defaultData = {
@@ -328,6 +366,15 @@
       localStorage.setItem('pos_rot_data', JSON.stringify(defaultData, null, 2));
       console.log('Data reset to default values in localStorage successfully!');
       location.reload();
+    });
+
+    document.getElementById('mode-select').addEventListener('change', function() {
+      const chatResponse = document.getElementById('chat-response');
+      if (this.value === '2') {
+        chatResponse.style.display = 'block';
+      } else {
+        chatResponse.style.display = 'none';
+      }
     });
 
     // Add this new function to convert image to base64
