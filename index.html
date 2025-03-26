@@ -116,19 +116,9 @@
         imageData = base64Image;
       }
 
-      if (imageData) {
-        
-      }
-
-      var apiKey = "AIzaSyC4QkYfYC1jGxwET6PxLA19nqXusaxOdww";
-      if (!apiKey) {
-        throw new Error("API Key not found. Please set it in Script Properties.");
-      }
-
-      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey;
-
+      let payload;
       if (mode === '1') {
-        var payload = {
+        payload = {
           "contents": [
             {
               "parts": [
@@ -160,7 +150,7 @@
           ]
         };
       } else {
-        var payload = {
+        payload = {
           "contents": [
             {
               "parts": [
@@ -176,16 +166,30 @@
                   User Query : ${promptTextarea.value}
                   Role 1:
                   1.response should be and conversational 
-                  2.response should be in markdown format
-
-                  `
-                  
+                  2.response should be in markdown format`
                 }
               ]
             }
           ]
         };
       }
+
+      // Add image to payload if it exists
+      if (imageData) {
+        payload.contents[0].parts.push({
+          "inline_data": {
+            "mime_type": "image/jpeg",
+            "data": imageData
+          }
+        });
+      }
+
+      var apiKey = "AIzaSyA3xLBmycLbszOMJxUQSJVmGEewVW9Z0hY";
+      if (!apiKey) {
+        throw new Error("API Key not found. Please set it in Script Properties.");
+      }
+
+      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey;
 
       var options = {
         headers: {
