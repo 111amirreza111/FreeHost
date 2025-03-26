@@ -117,92 +117,7 @@
       }
 
       if (imageData) {
-        const defaultData = {
-          "camera": {
-            "position": {
-              "x": 0,
-              "y": 10,
-              "z": 15
-            },
-            "rotation": {
-              "x": -0.5,
-              "y": 0,
-              "z": 0
-            },
-            "fov": 75
-          },
-          "cubes": [
-            {
-              "position": {
-                "x": -5,
-                "y": 1,
-                "z": -3
-              },
-              "rotation": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
-              "scale": {
-                "x": 2,
-                "y": 2,
-                "z": 2
-              },
-              "color": "#ffffff"
-            },
-            {
-              "position": {
-                "x": 3,
-                "y": 1,
-                "z": 2
-              },
-              "rotation": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
-              "scale": {
-                "x": 1.5,
-                "y": 1.5,
-                "z": 1.5
-              },
-              "color": "#000000"
-            }
-          ],
-          "plane": {
-            "position": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "rotation": {
-              "x": -1.57,
-              "y": 0,
-              "z": 0
-            },
-            "scale": {
-              "x": 10,
-              "y": 10,
-              "z": 10
-            },
-            "color": "#cccccc"
-          },
-          "humans": [
-            {
-              "position": {
-                "x": 6,
-                "y": 1,
-                "z": 6
-              },
-              "color": "#ffcc00"
-            }
-          ]
-        }
-
-        localStorage.setItem('pos_rot_data', JSON.stringify(defaultData, null, 2));
-        console.log('Data reset to default values in localStorage successfully!');
-        location.reload();
-        return;
+        
       }
 
       var apiKey = "AIzaSyC4QkYfYC1jGxwET6PxLA19nqXusaxOdww";
@@ -228,6 +143,7 @@
                   Task 2:
                   1.Update SceneJsonData for User Query.
                   2.retune Updated SceneJsonData for using in another agent to generate three js Scene.
+                  3.Rotate Alpha (X), Beta (Y), Gama(Z) of a object
 
                   Role 1:
                   1.your response is updated Json for User Query and nothing else.
