@@ -76,13 +76,23 @@ app.get('/health', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-const HOST = '0.0.0.0'; // Listen on all network interfaces
 
-app.listen(PORT, HOST, () => {
-  console.log(`Server running on http://${HOST}:${PORT}`);
-  console.log(`Node.js version: ${process.version}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+// Different startup for local vs production
+if (process.env.NODE_ENV === 'production') {
+  // For Ubuntu server
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running in production mode on http://0.0.0.0:${PORT}`);
+    console.log(`Node.js version: ${process.version}`);
+    console.log(`Environment: production`);
+  });
+} else {
+  // For local development
+  app.listen(PORT, () => {
+    console.log(`Server running in development mode on http://localhost:${PORT}`);
+    console.log(`Node.js version: ${process.version}`);
+    console.log(`Environment: development`);
+  });
+}
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err) => {

@@ -99,6 +99,10 @@
 
   <script type="module" src="main.js"></script>
   <script>
+    const API_URL = window.location.hostname === 'localhost' 
+      ? 'http://localhost:3000/generate'
+      : 'http://your-ubuntu-server-ip:3000/generate';
+
     document.getElementById('generate-button').addEventListener('click', async function () {
       const mode = document.getElementById('mode-select').value;
       const loadingMessage = document.getElementById('loading-message');
@@ -189,7 +193,7 @@
         throw new Error("API Key not found. Please set it in Script Properties.");
       }
 
-      var url = "http://localhost:3000/generate";
+      var url = API_URL;
       var options = {
         headers: {
           "Content-Type": "application/json"
