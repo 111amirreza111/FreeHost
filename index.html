@@ -189,7 +189,7 @@
         throw new Error("API Key not found. Please set it in Script Properties.");
       }
 
-      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey;
+      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" + apiKey;
 
       var options = {
         headers: {
@@ -269,7 +269,7 @@
             "z": 0
           },
           "rotation": {
-            "x": 0,
+            "x": -1.57,
             "y": 0,
             "z": 0
           }
