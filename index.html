@@ -189,8 +189,7 @@
         throw new Error("API Key not found. Please set it in Script Properties.");
       }
 
-      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" + apiKey;
-
+      var url = "http://localhost:3000/generate";
       var options = {
         headers: {
           "Content-Type": "application/json"
