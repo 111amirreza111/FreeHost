@@ -197,7 +197,12 @@
       };
 
       try {
-        var response = await axios.post(url, payload, options);
+        var response = await axios.post(url, payload, {
+          ...options,
+          timeout: 30000, // 30 second timeout
+          retry: 3, // Retry failed requests
+          retryDelay: 1000 // Wait 1 second between retries
+        });
         var json = response.data;
 
         if (json.candidates && json.candidates.length > 0) {
@@ -219,7 +224,12 @@
         }
 
       } catch (e) {
-        console.log("Error: " + e.message);
+        console.error("Error details:", {
+          message: e.message,
+          response: e.response?.data,
+          status: e.response?.status
+        });
+        alert("An error occurred. Please check the console for details.");
       }
 
       promptTextarea.value = '';
