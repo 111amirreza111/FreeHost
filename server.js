@@ -48,7 +48,7 @@ app.post('/generate', async (req, res) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: 30000 // 30 second timeout
+        timeout: 3000000 // 30 second timeout
       }
     );
     

@@ -46,7 +46,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; // Add smooth damping effect
 
 // Create plane (ground)
-const planeGeometry = new THREE.PlaneGeometry(10, 10);
+const planeGeometry = new THREE.PlaneGeometry(5, 5);
 const planeMaterial = new THREE.MeshBasicMaterial({
     color: 0x808080,
     side: THREE.DoubleSide
@@ -104,17 +104,17 @@ if (jsonData) {
     });
 
     // Add humans using cylinders
-    data.humans.forEach(humanData => {
-        // Create cylinder for the body
-        const bodyGeometry = new THREE.CylinderGeometry(0.5, 0.5, 2, 32);
-        const material = new THREE.MeshBasicMaterial({ color: humanData.color || '#ff0000' });
-        const human = new THREE.Mesh(bodyGeometry, material);
-        
-        // Set human position and rotation
-        human.position.set(humanData.position.x, humanData.position.y, humanData.position.z);
-        
-        scene.add(human);
-    });
+  //  data.humans.forEach(humanData => {
+  //      // Create cylinder for the body
+  //      const bodyGeometry = new THREE.CylinderGeometry(0.5, 0.5, 2, 32);
+  //      const material = new THREE.MeshBasicMaterial({ color: humanData.color || '#ff0000' });
+  //      const human = new THREE.Mesh(bodyGeometry, material);
+  //      
+  //      // Set human position and rotation
+  //      human.position.set(humanData.position.x, humanData.position.y, humanData.position.z);
+  //      
+  //      scene.add(human);
+  //  });
 } else {
     console.log("No data found in localStorage.");
 }
