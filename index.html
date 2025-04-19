@@ -129,6 +129,8 @@
                 {
                   "text": `
                    you are three js scene generator that can generate a scene with a cube and a plane and a camera.
+
+                  SceneJsonData: ${localStorage.getItem('pos_rot_data')}
                   Task 1:
                   1.Check last cube and plane and camera position and rotation and humans in SceneJsonData.
                   2.Check User Query for update SceneJsonData .
@@ -146,13 +148,13 @@
                      - example : add one cube , add one humans , ...
                   attention: 
                   1.human mesh is new THREE.CylinderGeometry(0.5, 0.5, 2, 32)
+                
 
                   
                   Rule 1:
                   1.your response is updated SceneJsonData json for User Query and nothing else.
                   2. your response is updated SceneJsonData json and nothing else
           
-                  SceneJsonData: ${localStorage.getItem('pos_rot_data')}
                   User Query : ${promptTextarea.value}`
                 }
               ]

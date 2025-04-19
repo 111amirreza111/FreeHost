@@ -104,17 +104,17 @@ if (jsonData) {
     });
 
     // Add humans using cylinders
-  //  data.humans.forEach(humanData => {
-  //      // Create cylinder for the body
-  //      const bodyGeometry = new THREE.CylinderGeometry(0.5, 0.5, 2, 32);
-  //      const material = new THREE.MeshBasicMaterial({ color: humanData.color || '#ff0000' });
-  //      const human = new THREE.Mesh(bodyGeometry, material);
-  //      
-  //      // Set human position and rotation
-  //      human.position.set(humanData.position.x, humanData.position.y, humanData.position.z);
-  //      
-  //      scene.add(human);
-  //  });
+   data.humans.forEach(humanData => {
+       // Create cylinder for the body
+       const bodyGeometry = new THREE.CylinderGeometry(0.5, 0.5, 2, 32);
+       const material = new THREE.MeshBasicMaterial({ color: humanData.color || '#ff0000' });
+       const human = new THREE.Mesh(bodyGeometry, material);
+       
+       // Set human position and rotation
+       human.position.set(humanData.position.x, humanData.position.y, humanData.position.z);
+       
+       scene.add(human);
+   });
 } else {
     console.log("No data found in localStorage.");
 }
