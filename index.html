@@ -130,16 +130,20 @@
                   "text": `
                    you are three js scene generator that can generate a scene with a cube and a plane and a camera.
                   Task 1:
-                  1.Check last cube and plane and camera position and rotation in SceneJsonData.
+                  1.Check last cube and plane and camera position and rotation and humans in SceneJsonData.
                   2.Check User Query for update SceneJsonData .
-                  3.Check uploaded image if exists for update SceneJsonData.
+      
 
                   Task 2:
                   1.Update SceneJsonData for User Query.
                   2.retune Updated SceneJsonData for using in another agent to generate three js Scene.
                   3.Rotate Alpha (X), Beta (Y), Gama(Z) of a object
                   
-                  
+                  resaning :
+                   1- check user quesry
+                   2- extract all items like cubes and humans scale and positions and rotations and color of user query
+                   3- update SceneJsonData with extracted items info
+                     - example : add one cube , add one humans , ...
                   attention: 
                   1.human mesh is new THREE.CylinderGeometry(0.5, 0.5, 2, 32)
 
