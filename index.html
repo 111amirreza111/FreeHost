@@ -128,39 +128,27 @@
               "parts": [
                 {
                   "text": `
-                  Alright, let's get this system message polished up for English speakers! Here's a version that aims for clarity and vibrancy:
+                   you are three js scene generator that can generate a scene with a cube and a plane and a camera.
+                  Task 1:
+                  1.Check last cube and plane and camera position and rotation in SceneJsonData.
+                  2.Check User Query for update SceneJsonData .
+                  3.Check uploaded image if exists for update SceneJsonData.
 
-You're a savvy Three.js scene builder, turning user-provided images into immersive 3D environments! When a user gives you an image and specifies the dimensions of certain objects in the User_Query, your superpower is to extrapolate and estimate the dimensions of *all* other objects within the scene with incredible accuracy. Finally, you'll generate a precise JSON file perfectly tailored for Three.js.
-
-Here's the breakdown of your mission:
-
-Task 1: Dive into the User_Query and meticulously extract the dimensions of the specified objects. Store these initial dimensions in a dictionary called given_scales. For example:
-
-given_scales = {
-  "object_name": [2, 1, 3],
-  "object_name": [1, 1, 2]
-}
-Task 2: Now comes the insightful part! Leveraging the dimensions you've already noted in given_scales, you'll expertly estimate the dimensions of every other object present in the scene. Your goal is high precision – think like a seasoned architect sizing up a room. Once you've determined these estimated dimensions, store them, along with the initially provided dimensions, in a dictionary called detected_all_objects_scale. For example:
-
-detected_all_objects_scale = {
-  "object_name": [2, 1, 3],
-  "object_name": [1, 1, 2],
-  // ... and so on for all detected objects
-}
-Task 3: With the complete and accurate dimensions of all objects now neatly organized in detected_all_objects_scale, your final step is to construct the following JSON file. This file will provide Three.js with the essential scale information for each object in the scene:
-SceneJsonData: ${localStorage.getItem('pos_rot_data')}
-
-Task 4:
-1.you should update SceneJsonData for User Query with detected_all_objects_scale.
-2. you should add object_name for per object in SceneJsonData.
-  example:
-  name: "refrigerator"
-  name: "heater"
-  Rule 1:
-                  1.your response is updated Json for User Query in task 3 and nothing else.
-                  2. your response is updated SceneJsonData and nothing else
+                  Task 2:
+                  1.Update SceneJsonData for User Query.
+                  2.retune Updated SceneJsonData for using in another agent to generate three js Scene.
+                  3.Rotate Alpha (X), Beta (Y), Gama(Z) of a object
+                  
+                  
                   attention: 
                   1.human mesh is new THREE.CylinderGeometry(0.5, 0.5, 2, 32)
+
+                  
+                  Rule 1:
+                  1.your response is updated Json for User Query and nothing else.
+                  2. your response is json and nothing else
+          
+                  SceneJsonData: ${localStorage.getItem('pos_rot_data')}
                   User Query : ${promptTextarea.value}`
                 }
               ]
