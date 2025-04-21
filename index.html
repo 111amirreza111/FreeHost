@@ -128,6 +128,7 @@
               "parts": [
                 {
                   "text": `
+
                    you are three js scene generator that can generate a scene with a cube and a plane and a camera.
 
                   SceneJsonData: ${localStorage.getItem('pos_rot_data')}
@@ -140,6 +141,11 @@
                   1.Update SceneJsonData for User Query.
                   2.retune Updated SceneJsonData for using in another agent to generate three js Scene.
                   3.Rotate Alpha (X), Beta (Y), Gama(Z) of a object
+
+                  Task 3:
+                  1.if user send any images you should find all objects in image then extract position and scale and rotation of them and update SceneJsonData
+                  2.all objects in image are cubes in SceneJsonData
+                  3.all humans in image are humans SceneJsonData
                   
                   resaning :
                    1- check user quesry
@@ -148,9 +154,18 @@
                      - example : add one cube , add one humans , ...
                   attention: 
                   1.human mesh is new THREE.CylinderGeometry(0.5, 0.5, 2, 32)
-                
-
+                  attention: 
+                  1. right image is Depths Map of Left image
                   
+                  Reseaning : 
+                  1.Check image again
+                  2.Extract objects positions and rotations and scale
+                  3.update SceneJsonData with extractec objects informations
+                  4.attention to user query for best estimated for example : human height is 170 cm so now you can have high accuracy estimation
+                  5.do 1,2,3,4 steps for 10 times
+
+                  Rule 1:
+                  1. whene you update SceneJsonData of User Query image all objects are cubes or humans
                   Rule 1:
                   1.your response is updated SceneJsonData json for User Query and nothing else.
                   2. your response is updated SceneJsonData json and nothing else
