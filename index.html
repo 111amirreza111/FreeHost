@@ -131,7 +131,7 @@
 
                    you are three js scene generator that can generate a scene with a cube and a plane and a camera.
 
-                 
+                  SceneJsonData: ${localStorage.getItem('pos_rot_data')}
                   Task 1:
                   1.Check last cube and plane and camera position and rotation and humans in SceneJsonData.
                   2.Check User Query for update SceneJsonData .
@@ -167,10 +167,11 @@
                   Rule 1:
                   1. whene you update SceneJsonData of User Query image all objects are cubes or humans
                   2. you dont need add objects in per request to SceneJsonData you can update last objects in SceneJsonData with new information
-                  Rule 1:
+
+                  Rule 2:
                   1.your response is updated SceneJsonData json for User Query and nothing else.
                   2.your response is updated SceneJsonData json and nothing else
-                  SceneJsonData: ${localStorage.getItem('pos_rot_data')}
+                  3. example of your response: ${localStorage.getItem('pos_rot_data')}
                   User Query : ${promptTextarea.value}`
                 }
               ]
@@ -282,6 +283,7 @@
         },
         "cubes": [
           {
+            "name": "object_1_name",
             "position": {
               "x": 0,
               "y": 0,
@@ -297,8 +299,7 @@
               "y": 1,
               "z": 1
             },
-            "color": "#ff000",
-            "name": "object_name"
+            "color": "#ff000"
           }
         ],
         "plane": {
